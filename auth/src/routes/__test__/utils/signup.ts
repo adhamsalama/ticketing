@@ -1,9 +1,8 @@
 import request from 'supertest';
 import { app } from '../../../app';
 
-export const signup = async () => {
-    const email = 'test@test.com';
-    const password = 'password';
+export const signup = async (email='test@test.com', password='password') => {
+    
     const response = await request(app)
         .post('/api/users/signup')
         .send({
