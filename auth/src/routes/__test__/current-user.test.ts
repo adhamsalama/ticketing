@@ -4,8 +4,11 @@ import { app } from '../../app';
 import { signup } from './utils/signup';
 
 it('responds with details about the current user', async () => {
+    const email = 'test@test.com';
+    const password = 'password';
+
     // Sign up
-    const cookie = await signup();
+    const cookie = await signup(email, password);
 
     // Get current user
     const response = await request(app)
@@ -14,7 +17,7 @@ it('responds with details about the current user', async () => {
         .send()
         .expect(200);
 
-    console.log(response.body);
+        expect(response.body.currentUser.email).toEqual(email);
 });
 
 it('responds with null if not authenticated', async () => {
