@@ -20,7 +20,7 @@ router.post('/api/users/signup', [
             throw new BadRequestError('Email already taken'); 
         }
 
-        const user = User.build({ email, password });
+        const user = new User({ email, password });
         await user.save();
 
         // Generate JWT
