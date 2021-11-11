@@ -32,15 +32,17 @@ it('fails when an email that does not exist is supplied', async () => {
 });
 
 it('returns a 400 when given wrong credentials', async () => {
+    const email = 'test@test.com';
+    const password = 'password';
     // Sign up
-    await signup();
+    await signup(email, password, 201);
         
     // Sign in with wrong password
     await request(app)
         .post('/api/users/signin')
         .send({
-            email: 'test@test.com',
-            password: 'differentpassword'
+            email: email,
+            password: 'adifferentpassword'
         })
         .expect(400);
 });
