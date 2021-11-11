@@ -1,15 +1,11 @@
+import { sign } from 'crypto';
 import request from 'supertest';
 import { app } from '../../app';
+import { signup } from './utils/signup';
 
 it('returns a 200 on successful signin', async () => {
     // Sign up
-    await request(app)
-        .post('/api/users/signup')
-        .send({
-            email: 'test@test.com',
-            password: 'password'
-        })
-        .expect(201);
+    await signup();
 
     // Sign in
     const response = await request(app)
@@ -35,13 +31,7 @@ it('fails when an email that does not exist is supplied', async () => {
 
 it('returns a 400 when given wrong credentials', async () => {
     // Sign up
-    await request(app)
-        .post('/api/users/signup')
-        .send({
-            email: 'test@test.com',
-            password: 'password'
-        })
-        .expect(201);
+    await signup();
         
     // Sign in with wrong password
     await request(app)
