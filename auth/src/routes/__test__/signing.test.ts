@@ -4,15 +4,17 @@ import { app } from '../../app';
 import { signup } from './utils/signup';
 
 it('returns a 200 on successful signin', async () => {
+    const email = 'test@test.com';
+    const password = 'password';
     // Sign up
-    await signup();
+    await signup(email, password, 201);
 
     // Sign in
     const response = await request(app)
         .post('/api/users/signin')
         .send({
-            email: 'test@test.com',
-            password: 'password'
+            email: email,
+            password: password
         })
         .expect(200);
     
