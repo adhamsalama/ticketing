@@ -6,8 +6,7 @@ import { currentUserRouter } from './routes/current-user';
 import { signinRouter } from './routes/signing';
 import { signoutRouter } from './routes/singout';
 import { signupRouter } from './routes/signup';
-import { errorHandler } from './middlewares/error-handler';
-import { NotFoundError } from './errors/not-found-error';
+import { errorHandler, NotFoundError } from '@kubertickets/common';
 
 const app = express();
 app.set('trust proxy', true);
