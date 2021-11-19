@@ -1,6 +1,7 @@
 import request from 'supertest';
 import { app } from '../../../app';
 import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
 
 export const getSignupCookie = async (email='test@test.com', password='password') => {
     
@@ -26,11 +27,12 @@ export const signup =  async (email='test@test.com', password='password', status
         .expect(statusCode)
 }
 
-export const signin = () => {
+export const signin = (id='', email='test@test.com') => {
+    id = new mongoose.Types.ObjectId().toHexString();
     // Build a JWT payload
     const payload = {
-        id: 'asdu654as5d',
-        email: 'test@test.com'
+        id,
+        email
     };
 
     // Create the JWT
@@ -52,7 +54,7 @@ export const signin = () => {
 export const createTicket = (title?: string, price?: number) => {
     return request(app)
         .post('/api/tickets')
-        .set('Cookie', signin())
+        .set('Cookie', signin('', 'test@test.com'))
         .send({
             title,
             price
