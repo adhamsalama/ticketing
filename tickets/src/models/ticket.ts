@@ -14,6 +14,10 @@ const ticketSchema = new mongoose.Schema<Ticket>({
     price: {
         type: Number,
         required: true
+    },
+    userId: {
+        type: String,
+        required: true
     }
 }, {
     toJSON: {
