@@ -28,6 +28,9 @@ stan.on('connect', () => {
 
 });
 
+process.on('SIGINT', () => stan.close());
+process.on('SIGTERM', () => stan.close());
+
 abstract class Listener {
 
     private client: Stan;
@@ -74,6 +77,3 @@ abstract class Listener {
         : JSON.parse(data.toString('utf-8'));
     }
 }
-
-process.on('SIGINT', () => stan.close());
-process.on('SIGTERM', () => stan.close());
