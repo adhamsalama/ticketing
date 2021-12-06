@@ -1,12 +1,27 @@
 import { Message, Stan } from 'node-nats-streaming';
+import { Subjects } from './subjects';
 
-export abstract class Listener {
+export interface Event {
+    subject: Subjects;
+    data: any; 
+}
+
+export abstract class Listener<T extends Event> {
 
     private client: Stan;
-    abstract subject: string;
+    /**
+     * Why use T['subject'] instead of Event['subject']
+     * To make sure the this.subject is equal to the subject of the supplied event
+     * i.e if we used TicketCreatedEvent as the event
+     * this.subject has to be equal to TicketCreatedEvent['subject'] which is 'ticket:created'
+     * 
+     * If we used Event['subject'] we could assign this.subject = Subjects.OrderCreated
+     * for the EventCreatedEvent which is definitely not what we want to do 
+     */
+    abstract subject: T['subject'];
     abstract queueGroupName: string;
     protected ackWait = 5 * 1000;
-    abstract onMessage(data: any, msg?: Message): void;
+    abstract onMessage(data: T['data'], msg?: Message): void;
     
     constructor(client: Stan) {
         this.client = client;
