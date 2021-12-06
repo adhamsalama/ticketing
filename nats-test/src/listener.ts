@@ -14,17 +14,7 @@ stan.on('connect', () => {
         console.log('NATS connection closed!');
         process.exit();
     });
-    const options = stan.subscriptionOptions()
-        .setManualAckMode(true)
-        .setDeliverAllAvailable()
-        .setDurableName('orders-service');
-    const subscription = stan.subscribe('ticket:created', 'queue-group-name', options);
-
-    subscription.on('message', (msg: Message) => {
-        console.log('Message received');
-        console.log(`received event #${msg.getSequence()}, with data: ${String(msg.getData())}`);
-        msg.ack();
-    });
+    new TicketCreatedListener(stan).listen();
 
 });
 
@@ -75,5 +65,16 @@ abstract class Listener {
         return typeof data === 'string'
         ? JSON.parse(data)
         : JSON.parse(data.toString('utf-8'));
+    }
+}
+
+class TicketCreatedListener extends Listener {
+    subject = 'ticket:created';
+    queueGroupName = 'payments-service';
+
+    onMessage(data: any, msg: Message) {
+        console.log('Event data', data);
+
+        msg.ack();
     }
 }
