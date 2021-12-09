@@ -7,9 +7,14 @@ export class TicketCreatedListener extends Listener<TicketCreatedEvent> {
     readonly subject = Subjects.TicketCreated;
     queueGroupName = 'payments-service';
 
-    onMessage(data: any, msg: Message) {
-        console.log('Event data', data);
-
+    // data with type of any works despite it being of type T['data'] in base-listener
+    // any other type doesn't work
+    onMessage(data: TicketCreatedEvent['data'], msg: Message) {
+        console.log('Event data');
+        console.log(data.id);
+        console.log(data.title);
+        console.log(data.price);
+        
         msg.ack();
     }
 }
