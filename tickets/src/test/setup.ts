@@ -2,6 +2,8 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import { app } from '../app';
 
+jest.mock('../nats-wrapper');
+
 let mongo: any;
 beforeAll(async () => {
     // Use a a MongoDB coker image instead of MongoMemoryServer
@@ -14,10 +16,13 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
+    jest.clearAllMocks();
+    
     const collections = await mongoose.connection.db.collections();
     for (let collection of collections) {
         await collection.deleteMany({});
     }
+    
 });
 
 afterAll(async () => {

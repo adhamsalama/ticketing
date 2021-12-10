@@ -4,6 +4,7 @@ import { app } from '../../app';
 import { signin } from './utils/signup';
 import { Ticket } from '../../models/ticket';
 import { createTicket } from './utils/signup';
+import { natsWrapper } from '../../nats-wrapper';
 
 it('has a route handler listening to /api/tickets for post requests', async () => {
     const response = await request(app)
@@ -53,4 +54,15 @@ it('creates a ticket with valid inputs', async () => {
     await createTicket('asd', 20).expect(201);
     tickets = await Ticket.find({});
     expect(tickets.length).toEqual(1);
+});
+
+it('publishes an event', async () => {
+    let tickets = await Ticket.find({});
+    expect(tickets.length).toEqual(0);
+
+    await createTicket('asd', 20).expect(201);
+    tickets = await Ticket.find({});
+    expect(tickets.length).toEqual(1);
+
+    expect(natsWrapper.client.publish).toHaveBeenCalled();
 });
