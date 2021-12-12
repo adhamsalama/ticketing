@@ -9,7 +9,7 @@ interface TicketAttrs {
 interface TicketDoc extends mongoose.Document {
     title: string;
     price: number;
-    isResevred(): Promise<boolean>;
+    isReserved(): Promise<boolean>;
 }
 
 interface TicketModel extends mongoose.Model<TicketDoc> {
@@ -39,7 +39,7 @@ ticketSchema.statics.build = (attrs: TicketAttrs) => {
     return new Ticket(attrs);
 }
 
-ticketSchema.statics.isReseverved = async function() {
+ticketSchema.methods.isReserved = async function() {
     /**
      * Run query to look at all orders.
      * Find an order in which the ticket is the ticket we want
