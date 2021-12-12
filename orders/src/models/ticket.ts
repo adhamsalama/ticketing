@@ -60,6 +60,6 @@ ticketSchema.statics.isReseverved = async function() {
     return !!reservedOrder;
 }
 
-const Ticket = mongoose.model<TicketDoc, TicketModel>('order', ticketSchema);
+const Ticket = mongoose.model<TicketDoc, TicketModel>('ticket', ticketSchema);
 
 export { Ticket, TicketDoc };
