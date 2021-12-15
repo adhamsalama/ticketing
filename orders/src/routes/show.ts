@@ -1,14 +1,14 @@
 import express, { Request, Response } from 'express';
-//import { Ticket } from '../models/ticket';
-import { NotFoundError } from '@kubertickets/common';
+import { NotFoundError, NotAuthorizedError } from '@kubertickets/common';
+import { Order } from '../models/order';
 
 const router = express.Router();
 
 router.get('/api/orders/:id', async (req: Request, res: Response) => {
-    //const ticket = await Ticket.findById(req.params.id);
-
-    //if (!ticket) throw new NotFoundError();
-    res.send({});
+    const order = await Order.findById(req.params.id).populate('ticket');
+    if (!order) throw new NotFoundError();
+    if (order.userId !== req.currentUser!.id) throw new NotAuthorizedError();
+    res.send(order);
 });
 
 export { router as showOrderRouter };
