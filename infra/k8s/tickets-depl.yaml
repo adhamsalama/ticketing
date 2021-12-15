@@ -13,7 +13,7 @@ spec:
         app: tickets
     spec:
       containers:
-        - name: auth
+        - name: tickets
           image: adham99/tickets
           env:
             - name: MONGO_URI
