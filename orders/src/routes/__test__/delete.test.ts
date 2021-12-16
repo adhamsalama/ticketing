@@ -10,6 +10,7 @@ import { OrderCancelledPublisher } from '../../events/publishers/order-cancelled
 it('it marks an order as cancelled', async () => {
     // Create a ticket
     const ticket = Ticket.build({
+        id: new mongoose.Types.ObjectId().toHexString(),
         title: 'test',
         price: 46
     });
@@ -40,6 +41,7 @@ it('it marks an order as cancelled', async () => {
 it('emits an order cancelled event', async () => {
     // Create a ticket
     const ticket = Ticket.build({
+        id: new mongoose.Types.ObjectId().toHexString(),
         title: 'test',
         price: 46
     });
