@@ -4,7 +4,8 @@ import {
     validateRequest,
     NotFoundError,
     NotAuthorizedError,
-    requireAuth
+    requireAuth,
+    BadRequestError
 } from '@kubertickets/common';
 import { Ticket } from '../models/ticket';
 import { TicketUpdatedPublisher } from '../events/publishers/ticket-updated-publisher';
@@ -23,6 +24,7 @@ router.put('/api/tickets/:id',
         const ticket = await Ticket.findById(req.params.id);
         if (!ticket) throw new NotFoundError();
         if (ticket.userId != req.currentUser!.id) throw new NotAuthorizedError();
+        if (ticket.orderId) throw new BadRequestError('Can not edit a reserved ticket');
 
         ticket.set({
             title: req.body.title,
