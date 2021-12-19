@@ -22,9 +22,6 @@ interface OrderModel extends mongoose.Model<OrderDoc> {
 }
 
 const orderSchema = new mongoose.Schema({
-    id : {
-        type: mongoose.Types.ObjectId
-    },
     userId: {
         type: String,
         required: true
@@ -52,7 +49,13 @@ const orderSchema = new mongoose.Schema({
 });
 
 orderSchema.statics.build = (attrs: OrderAttrs) => {
-    return new Order(attrs);
+    return new Order({
+        _id: attrs.id,
+        userId: attrs.userId,
+        status: attrs.status,
+        version: attrs.version,
+        price: attrs.price
+    });
 };
 
 orderSchema.set('versionKey', 'version');
