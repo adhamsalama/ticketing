@@ -1,6 +1,6 @@
 import { Listener, Subjects, ExpirationCompleteEvent, NotFoundError, OrderStatus } from "@kubertickets/common";
 import { Message } from "node-nats-streaming";
-import { queueGroupName } from "./queue-grou-name";
+import { queueGroupName } from "./queue-group-name";
 import { Order } from "../../models/order";
 import { OrderCancelledPublisher } from "../publishers/order-cancelled-publisher";
 
