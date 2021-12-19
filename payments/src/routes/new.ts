@@ -9,6 +9,7 @@ import {
     OrderStatus
 } from '@kubertickets/common';
 import { Order } from '../models/order';
+import { Payment } from '../models/payment';
 import { stripe } from '../stripe';
 
 const router = express.Router();
@@ -33,12 +34,17 @@ router.post('/api/payments',
         if (order.userId != req.currentUser!.id) throw new NotAuthorizedError();
         if (order.status === OrderStatus.Cancelled) throw new BadRequestError('Cannot pay for a cancelled order');
         
-        await stripe.charges.create({
+        const stripeCharge = await stripe.charges.create({
             currency: 'usd',
             amount: order.price * 100,
             source: token
         });
 
+        const payment = Payment.build({
+            orderId: order.id,
+            stripeId: stripeCharge.id
+        });
+        await payment.save();
         res.status(201).send({"msg": "sucess"});
     }
 );
