@@ -1,7 +1,7 @@
 import { Listener, NotFoundError, Subjects, TicketUpdatedEvent } from '@kubertickets/common';
 import { Message } from 'node-nats-streaming';
 import { Ticket } from '../../models/ticket';
-import { queueGroupName } from './queue-grou-name';
+import { queueGroupName } from './queue-group-name';
 
 export class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
     readonly subject = Subjects.TicketUpdated;
