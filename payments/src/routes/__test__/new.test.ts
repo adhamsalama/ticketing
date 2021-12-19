@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 import { signin } from './utils/signing';
 import { OrderStatus } from '@kubertickets/common';
 import { stripe } from '../../stripe';
-
+import { Payment } from '../../models/payment';
 
 it('returns a 404 when purchasing an order that does not exist', async () => {
     await request(app)
@@ -86,4 +86,11 @@ it('creates a successful charge with valid inputs', async () => {
         const stripeCharge = stripeCharges.data.find(charge => charge.amount === price * 100);
         expect(stripeCharge).toBeDefined();
         expect(stripeCharge!.currency).toEqual('usd');
+
+        const payment = await Payment.findOne({
+            orderId: order.id,
+            stripeId: stripeCharge!.id
+        });
+
+        expect(payment).not.toBeNull();
 });
