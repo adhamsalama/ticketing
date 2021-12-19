@@ -9,7 +9,7 @@ import { OrderCreatedPublisher } from '../events/publishers/order-created-publis
 
 const router = express.Router();
 
-const EXPIRATION_WINDOW_SECONDS = 15 * 60;
+const EXPIRATION_WINDOW_SECONDS = 1 * 10; // Expires after 10 secs for quick testing
 
 router.post('/api/orders', requireAuth, [
     body('ticketId')
