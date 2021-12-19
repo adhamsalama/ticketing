@@ -6,7 +6,7 @@ import { OrderCreatedEvent, OrderStatus } from '@kubertickets/common';
 
 const setup = async () => {
     const listener = new OrderCreatedListener(natsWrapper.client);
-
+    
     const data: OrderCreatedEvent['data'] = {
         id: new mongoose.Types.ObjectId().toHexString(),
         version: 0,
