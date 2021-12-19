@@ -31,6 +31,13 @@ spec:
                 name: orders-srv
                 port:
                   number: 3000
+          - path: /api/payments/?(.*)
+            pathType: Exact
+            backend:
+              service:
+                name: payments-srv
+                port:
+                  number: 3000
           - path: /?(.*)
             pathType: Exact
             backend:
@@ -38,6 +45,5 @@ spec:
                 name: client-srv
                 port:
                   number: 3000
-
             
           
