@@ -11,7 +11,7 @@ import {
 import { Order } from '../models/order';
 import { Payment } from '../models/payment';
 import { stripe } from '../stripe';
-import { PaymentCreatedPublisher } from '../events/listeners/publishers/payment-created-publisher';
+import { PaymentCreatedPublisher } from '../events/publishers/payment-created-publisher';
 import { natsWrapper } from '../nats-wrapper';
 
 const router = express.Router();
