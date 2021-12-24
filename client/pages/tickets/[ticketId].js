@@ -1,7 +1,7 @@
 import useRequest from '../../hooks/use-request';
 import Router from 'next/router';
 
-const TicketShow = ({ ticket }) => {
+const TicketShow = ({ ticket, currentUser }) => {
     const { doRequest, errors } = useRequest({
         url: '/api/orders',
         method: 'post',
@@ -14,7 +14,7 @@ const TicketShow = ({ ticket }) => {
         <h1>{ticket.title}</h1>
         <h4>Price: {ticket.price}</h4>
         {errors}
-        <button onClick={() => doRequest()} className="btn btn-primary">Purchase</button>
+        {ticket.userId == currentUser.id ? <div>You can not purchase your own ticket</div> : <button onClick={() => doRequest()} className="btn btn-primary">Purchase</button>}
     </div>
 };
 

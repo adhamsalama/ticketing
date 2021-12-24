@@ -28,11 +28,13 @@ const OrderShow = ({ order, currentUser }) => {
     }, []);
 
     if(timeLeft < 0) {
-        return <div>Order Expired</div>
+        return <div class="alert alert-danger" role="alert">
+            Order Expired!
+        </div>
     }
 
     return <div>
-        Time left to pay: {timeLeft} seconds.
+        <h3>Time left to pay: {timeLeft} seconds.</h3>
         <StripeCheckout 
         token={({ id }) => doRequest({ token: id })}
         stripeKey='pk_test_51K8UVGABm7D5syb0EIihan0dwyTlYdSZTxmqIpOhzOCNGZyOfkeMj228VAd5L6Sr3cUw2c5RqWXKpUVuJgYfGzqj00dFpr1XbI'
