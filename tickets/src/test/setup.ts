@@ -1,9 +1,7 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
-import request from 'supertest';
-import { app } from '../app';
 
-
+jest.mock('../nats-wrapper');
 let mongo: any;
 //hook function means this will run before all of
 //our tests start excecuting.
